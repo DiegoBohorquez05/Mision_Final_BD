@@ -18,7 +18,7 @@ class AdminController extends Controller
     public function index(Request $request){
         try{
             $request->validate([
-                'movie_id' => 'required|exist:Catalogue,id'
+                'movie_id' => 'required'
             ]);
         }catch (\Throwable $th){
             return response()->json(['error' => $th->getMessage()], 400);
