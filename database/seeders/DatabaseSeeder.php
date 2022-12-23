@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Catalogue;
+use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,5 +24,24 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        User::create([
+            'email' => 'elMejorAdmin@gmail.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+        ]);
+        User::create([
+            'email' => 'cliente1@gmail.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+        ]);
+
+        Catalogue::factory(4)->create();
+
+        $this->call([
+            PermissionSeeder::class,
+        ]);
+        $admin = User::find(1);
+        $admin->assignRole('admin');
+        $admin = User::find(2);
+        $admin->assignRole('customer');
     }
 }
