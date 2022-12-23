@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function show(){
+    public function show()
+    {
         $movies = Catalogue::all();
 
         return response()->json([
@@ -15,12 +16,13 @@ class AdminController extends Controller
         ], 200);
     }
 
-    public function index(Request $request){
-        try{
+    public function index(Request $request)
+    {
+        try {
             $request->validate([
                 'movie_id' => 'required'
             ]);
-        }catch (\Throwable $th){
+        } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 400);
         }
 
@@ -29,33 +31,35 @@ class AdminController extends Controller
         return Catalogue::find($id_peli);
     }
 
-    public function create(Request $request){
-        try{
+    public function create(Request $request)
+    {
+        try {
             $request->validate([
                 'name' => 'required',
                 'producer_name' => 'required',
                 'release_date' => 'required',
             ]);
-        }catch (\Throwable $th){
+        } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 400);
         }
 
         Catalogue::create([
             'name' => $request->name,
-            'producer_name' => $request -> producer_name,
-            'release date' => $request -> release_date,
+            'producer_name' => $request->producer_name,
+            'release date' => $request->release_date,
         ]);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         // return response()->json($id);
-        try{
+        try {
             $request->validate([
-                'name'=>'required',
-                'producer_name' =>'required',
-                'release_date' =>'required'
+                'name' => 'required',
+                'producer_name' => 'required',
+                'release_date' => 'required'
             ]);
-        }catch (\Throwable $th){
+        } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 400);
         }
 
@@ -63,18 +67,18 @@ class AdminController extends Controller
         $movie = Catalogue::find($id);
 
         $movie->update([
-            'name'=> $request->name,
+            'name' => $request->name,
             'producer_name' => $request->producer_name,
             'release_date' => $request->release_date
         ]);
-        
+
         return Catalogue::find($movie);
     }
 
-    public function delete($id){
-        $movie=Catalogue::find($id);
+    public function delete($id)
+    {
+        $movie = Catalogue::find($id);
         $movie->delete();
         return response()->json($movie);
     }
-
 }
